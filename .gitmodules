@@ -1,0 +1,3 @@
+[submodule "pystocktwits"]
+	path = pystocktwits
+	url = https://github.com/khmurakami/pystocktwits.git
