@@ -9,6 +9,14 @@ import numpy
 # Helper functions placed here for nowself.
 # Need to optimize later once I figure out better programming
 
+# Take json and nump it into a file
+# Takes in file name and the raw json
+# file name needs to be .jsons
+def return_json_file(raw_json, file_name):
+    with open(file_name, "w") as data_file:
+        json.dump(raw_json, data_file, indent=4, sort_keys=True)
+    return True
+
 #Return only a msg
 def get_most_recent_msg_by_user(user_id):
     twit = Streamer()
@@ -42,26 +50,28 @@ def get_all_msgs_with_sentiment_by_symbol_id(symbol_id):
     msgs = []
     sentiment = []
     twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=2)
+    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=30)
     messages_data = raw_json['messages']
     for message in messages_data:
         msgs.append(message.get("body"))
         sentiment.append(message.get("entities"))
-    sentiment_dict = {msgs[i]: sentiment[i] for i in range(len(msgs))}
-    return sentiment_dict
+    #sentiment_dict = {msgs[i]: sentiment[i] for i in range(len(msgs))}
+    return msgs, sentiment
 
 #Return a dict with msg to sentiment
 def get_all_msgs_with_sentiment_by_user_id(user_id):
     msgs = []
     sentiment = []
     twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id = user_id, limit=1)
+    raw_json = twit.get_user_msgs(user_id = user_id, limit=30)
     messages_data = raw_json['messages']
     for message in messages_data:
         msgs.append(message.get("body"))
         sentiment.append(message.get("entities"))
-    sentiment_dict = {msgs[i]: sentiment[i] for i in range(len(msgs))}
-    return sentiment_dict
+    #sentiment_dict = {msgs[i]: sentiment[i] for i in range(len(msgs))}
+    #body = messages_data['body']
+    #entities = messages_data['entities']['sentiment']
+    return msgs, sentiment
 
 #Using this for temp use
 def dict_to_dataframe(dict):
@@ -76,6 +86,24 @@ def dict_to_csv(dict, download_path):
 
 def dataframe_to_csv(dataframe, download_path):
     dataframe.to_csv('{}'.format(download_path), index=False, header=False)
+
+# Takes in a list of strings that you need to parse by.
+def dict_to_subdict(wanted_keys):
+    #wanted_keys = ['l', 'm', 'n'] # The keys you want
+    wanted_keys = wanted_keys
+    output = dict((k, bigdict[k]) for k in wanted_keys if k in bigdict)
+    return output
+
+# Ex: [{'sentiment': {'basic': 'Bullish'}}, {'sentiment': None}]
+def extract_sentiment_statements(list_of_sentiment_json):
+    example = []
+    for i in this:
+        if i['sentiment'] is None:
+            example.append(i['sentiment'])
+        elif i is not None and i['sentiment'] is not None:
+            print(i['sentiment']['basic'])
+            example.append(i['sentiment']['basic'])
+    return example
 
 if __name__ == '__main__':
     twit = Streamer()

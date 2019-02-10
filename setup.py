@@ -9,5 +9,5 @@ setuptools.setup(
     packages=['pystocktwits', 'pystocktwits_data_utils'],
     install_requires=["requests"],
     license="MIT",
-    url="https://github.com/khmurakami/pystocktwits"
+    url="https://github.com/khmurakami/pystocktwits_data_utils"
 )
