@@ -50,7 +50,7 @@ def get_all_msgs_with_sentiment_by_symbol_id(symbol_id):
     msgs = []
     sentiment = []
     twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=30)
+    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=1)
     messages_data = raw_json['messages']
     for message in messages_data:
         msgs.append(message.get("body"))
@@ -63,7 +63,7 @@ def get_all_msgs_with_sentiment_by_user_id(user_id):
     msgs = []
     sentiment = []
     twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id = user_id, limit=30)
+    raw_json = twit.get_user_msgs(user_id = user_id, limit=1)
     messages_data = raw_json['messages']
     for message in messages_data:
         msgs.append(message.get("body"))
@@ -104,6 +104,40 @@ def extract_sentiment_statements(list_of_sentiment_json):
             print(i['sentiment']['basic'])
             example.append(i['sentiment']['basic'])
     return example
+
+def textblob_simple_sentiment(msg):
+    textblob_sentiment = TextBlob(msg)
+    test = textblob_sentiment.sentiment.polarity
+    return test
+
+def textblob_sentiment_list(list):
+    twitter_sentiment = []
+    for i in list_of_msgs:
+        twitter_sentiment.append(textblob_simple_sentiment(i))
+    return twitter_sentiment
+
+
+# stocktwit_csv_create('test.csv', 'AAPL', 10, 3)
+def stocktwit_csv_create(csv_name, company_id, msg_range, time_delay, header_names):
+    csv_name = str(csv_name)
+    company_id = str(company_id)
+    with open(csv_name, 'w') as f:
+	    f.write("msgs, stock_sentiment, twitter_senitment \n")
+
+    for i in range(0, msg_range):
+        time.sleep(time_delay)
+        list_of_msgs, list_of_sentiment_json = get_all_msgs_with_sentiment_by_symbol_id(company_id)
+        list_of_twitter_sentiment = textblob_sentiment_list(list_of_msgs)
+        list_of_sentiment = extract_sentiment_statements(list_of_sentiment_json)
+        with open(csv_name, 'a', newline='') as f:
+            writer=csv.writer(f)
+            data = list(zip(list_of_msgs, list_of_sentiment, list_of_twitter_sentiment))
+            for row in data:
+                row = list(row)
+                print(row)
+                writer.writerow(row)
+
+
 
 if __name__ == '__main__':
     twit = Streamer()
