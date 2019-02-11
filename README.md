@@ -1,6 +1,8 @@
 # pystocktwits_data_utils
 
-Data Tools for the JSON outputs from the pystocktwits wrapper to create datasets. This was made separate from the main repo because the main repo can still expand to using other functions.
+Data Tools for the JSON outputs from the pystocktwits wrapper to create datasets. This was made separate from the main repo only includes wrappers for the web calls to stocktwits.
+
+Link to main repo: https://github.com/khmurakami/pystocktwits
 
 # Install
 
@@ -51,6 +53,8 @@ dataframe.to_csv('pystocktwitsdataset.csv')
 - Clean automatic csv generator
 - Make more examples
 - Make better README.md
+- Make the travis_cli
+- Fix naming of functions
 
 ## References
 

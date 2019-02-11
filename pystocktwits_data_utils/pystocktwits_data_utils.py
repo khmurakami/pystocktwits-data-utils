@@ -1,9 +1,11 @@
 from pystocktwits import Streamer
+from textblob import TextBlob
 
 import requests
 import json
 import csv
 import pandas as pd
+
 
 def return_json_file(raw_json, file_name):
 
@@ -65,7 +67,7 @@ def get_most_recent_sentiment_by_user(user_id):
 
     param user_id(string): User id of the user in stocktwits.
 
-    return recent_sentiment(string): The most sentiment posted
+    return recent_sentiment(dict): The most sentiment posted
     """
 
     twit = Streamer()
@@ -83,7 +85,7 @@ def get_most_recent_sentiment_by_symbol_id(symbol_id):
 
     param symbol_id(string): Symbol id of the company in stocktwits.
 
-    return recent_sentiment(string): The most sentiment posted
+    return recent_sentiment(dict): The most sentiment posted
     """
 
     twit = Streamer()
@@ -111,7 +113,7 @@ def get_all_msgs_with_sentiment_by_symbol_id(symbol_id, limit=0):
     sentiment = []
 
     twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit)
+    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=limit)
 
     # Get the message body in a list
     messages_data = raw_json['messages']
@@ -140,7 +142,7 @@ def get_all_msgs_with_sentiment_by_user_id(user_id, limit=0):
     sentiment = []
 
     twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id = user_id, limit)
+    raw_json = twit.get_user_msgs(user_id = user_id, limit=limit)
 
     # Get the message body in a list
     messages_data = raw_json['messages']
@@ -173,6 +175,7 @@ def extract_sentiment_statements_basic(list_of_sentiment_json):
         # If the sentiment is not None then parse it out.
         elif i is not None and i['sentiment'] is not None:
             parsed_sentiments.append(i['sentiment']['basic'])
+
     return parsed_sentiments
 
 
@@ -221,7 +224,7 @@ def stocktwit_csv_create(csv_name, company_id, msg_range, time_delays, limit=30)
     param time_delays(int): Delay before API Call
     param limit(int): How many msgs to get when executing call
     """
-    
+
     csv_name = str(csv_name)
     company_id = str(company_id)
     with open(csv_name, 'w') as f:
@@ -229,7 +232,7 @@ def stocktwit_csv_create(csv_name, company_id, msg_range, time_delays, limit=30)
 
     for i in range(0, msg_range):
         time.sleep(time_delay)
-        list_of_msgs, list_of_sentiment_json = get_all_msgs_with_sentiment_by_symbol_id(company_id, limit)
+        list_of_msgs, list_of_sentiment_json = get_all_msgs_with_sentiment_by_symbol_id(symbol_id=company_id, limit=limit)
         list_of_twitter_sentiment = textblob_sentiment_list(list_of_msgs)
         list_of_sentiment = extract_sentiment_statements(list_of_sentiment_json)
         with open(csv_name, 'a', newline='') as f:
