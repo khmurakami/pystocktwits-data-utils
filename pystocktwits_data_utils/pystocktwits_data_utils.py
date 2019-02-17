@@ -7,179 +7,207 @@ import csv
 import pandas as pd
 
 
-def return_json_file(raw_json, file_name):
+class PyStockTwitData(Streamer):
 
-    """
-    return_json_file is a function that takes in the raw_json and makes it into a nicely formatted json file which I used for debugging purposes like how the json is nested.
+    def __init__(self):
 
-    param raw_json(json object): Takes in a json object.
-    param file_name(string): file_name is the name of the file name you want to write too.
+        self.streamer = Streamer
 
-    return True: Return True if the function executed properly.
-    """
+    def get_most_recent_msg_by_user(self, user_id):
 
-    # Open file with the ability to write to the file
-    with open(file_name, "w") as data_file:
-        json.dump(raw_json, data_file, indent=4, sort_keys=True)
+        """
+        get_most_recent_msg_by_user: Get the most recent msg by queried by the user_id
 
-    return True
+        param user_id(string): User id of the user in stocktwits
 
-def get_most_recent_msg_by_user(user_id):
+        return recent_msg(string): The most recent msg
+        """
 
-    """
-    get_most_recent_msg_by_user: Get the most recent msg by queried by the user_id
+        twit = self.streamer
+        raw_json = twit.get_user_msgs(user_id)
 
-    param user_id(string): User id of the user in stocktwits
+        # Parse out the raw json by the json format
+        recent_msg = raw_json['messages'][0]['body']
 
-    return recent_msg(string): The most recent msg
-    """
+        return recent_msg
 
-    twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id)
+    def get_most_recent_msg_by_symbol_id(self, symbol_id):
 
-    # Parse out the raw json by the json format
-    recent_msg = raw_json['messages'][0]['body']
+        """
+        get_most_recent_msg_by_symbol_id: Get the most recent msg posted in the company stocktwit
 
-    return recent_msg
+        param symbol_id(string): Symbol id of the company in stocktwits. Ex: 'AAPL'
 
-def get_most_recent_msg_by_symbol_id(symbol_id):
+        return recent_msg(string): The most recent msg
+        """
 
-    """
-    get_most_recent_msg_by_symbol_id: Get the most recent msg posted in the company stocktwit
+        twit = self.streamer
+        raw_json = twit.get_symbol_msgs(symbol_id)
 
-    param symbol_id(string): Symbol id of the company in stocktwits. Ex: 'AAPL'
+        # Parse out the raw json by the json format
+        recent_msg = raw_json['messages'][0]['body']
 
-    return recent_msg(string): The most recent msg
-    """
+        return recent_msg
 
-    twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id)
+    def get_most_recent_sentiment_by_user(self,user_id):
 
-    # Parse out the raw json by the json format
-    recent_msg = raw_json['messages'][0]['body']
+        """
+        get_most_recent_sentiment_by_user: Get the most recent sentiment that the user posted
 
-    return recent_msg
+        param user_id(string): User id of the user in stocktwits.
 
-def get_most_recent_sentiment_by_user(user_id):
+        return recent_sentiment(dict): The most sentiment posted
+        """
 
-    """
-    get_most_recent_sentiment_by_user: Get the most recent sentiment that the user posted
+        twit = self.streamer
+        raw_json = twit.get_user_msgs(user_id)
 
-    param user_id(string): User id of the user in stocktwits.
+        # Parse out the raw json by the json format
+        recent_sentiment = raw_json['messages'][0]['entities']
 
-    return recent_sentiment(dict): The most sentiment posted
-    """
+        return recent_sentiment
 
-    twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id)
+    def get_most_recent_sentiment_by_symbol_id(self, symbol_id):
 
-    # Parse out the raw json by the json format
-    recent_sentiment = raw_json['messages'][0]['entities']
+        """
+        get_most_recent_sentiment_by_symbol_id: Get the most recent sentiment that the user posted
 
-    return recent_sentiment
+        param symbol_id(string): Symbol id of the company in stocktwits.
 
-def get_most_recent_sentiment_by_symbol_id(symbol_id):
+        return recent_sentiment(dict): The most sentiment posted
+        """
 
-    """
-    get_most_recent_sentiment_by_symbol_id: Get the most recent sentiment that the user posted
+        twit = self.streamer
+        raw_json = twit.get_symbol_msgs(self, symbol_id)
 
-    param symbol_id(string): Symbol id of the company in stocktwits.
+        # Parse out the raw json by the json format
+        recent_sentiment =  raw_json['messages'][0]['entities']
 
-    return recent_sentiment(dict): The most sentiment posted
-    """
+        return recent_sentiment
 
-    twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id)
+    def get_all_msgs_with_sentiment_by_symbol_id(self, symbol_id, limit=0):
 
-    # Parse out the raw json by the json format
-    recent_sentiment =  raw_json['messages'][0]['entities']
+        """
+        get_all_msgs_with_sentiment_by_symbol_id: Get both sentiment and msgs by symbol id. Limit is 30
 
-    return recent_sentiment
+        param symbol_id(string): Symbol id of the company in stocktwits.
+        param limit(int): Amount of msgs and sentiment you want to see. Limit is 30.
 
-def get_all_msgs_with_sentiment_by_symbol_id(symbol_id, limit=0):
+        return msgs(list): List of msgs
+        return sentiment(list of json): List of sentiment json
+        """
 
-    """
-    get_all_msgs_with_sentiment_by_symbol_id: Get both sentiment and msgs by symbol id. Limit is 30
+        # Create lists to append the parsed out json too.
+        msgs = []
+        sentiment = []
 
-    param symbol_id(string): Symbol id of the company in stocktwits.
-    param limit(int): Amount of msgs and sentiment you want to see. Limit is 30.
+        twit = self.streamer
+        raw_json = twit.get_symbol_msgs(self, symbol_id = symbol_id, limit=limit)
 
-    return msgs(list): List of msgs
-    return sentiment(list of json): List of sentiment json
-    """
+        # Get the message body in a list
+        messages_data = raw_json['messages']
 
-    # Create lists to append the parsed out json too.
-    msgs = []
-    sentiment = []
+        # Iterate through all of the "body" and "entities" json and append to list
+        for message in messages_data:
+            msgs.append(message.get("body"))
+            sentiment.append(message.get("entities"))
 
-    twit = Streamer()
-    raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=limit)
+        return msgs, sentiment
 
-    # Get the message body in a list
-    messages_data = raw_json['messages']
+    def get_all_msgs_with_sentiment_by_user_id(self, user_id, limit=30):
 
-    # Iterate through all of the "body" and "entities" json and append to list
-    for message in messages_data:
-        msgs.append(message.get("body"))
-        sentiment.append(message.get("entities"))
+        """
+        get_all_msgs_with_sentiment_by_user_id: Get both sentiment and msgs by user id. Limit is 30
 
-    return msgs, sentiment
+        param user_id(string): user_id id of the company in stocktwits.
+        param limit(int): Amount of msgs and sentiment you want to see. Limit is 30.
 
-def get_all_msgs_with_sentiment_by_user_id(user_id, limit=0):
+        return msgs(list): List of msgs
+        return sentiment(list of json): List of sentiment json
+        """
 
-    """
-    get_all_msgs_with_sentiment_by_user_id: Get both sentiment and msgs by user id. Limit is 30
+        # Create lists to append the parsed out json too.
+        msgs = []
+        sentiment = []
 
-    param user_id(string): user_id id of the company in stocktwits.
-    param limit(int): Amount of msgs and sentiment you want to see. Limit is 30.
+        twit = self.streamer
+        raw_json = twit.get_user_msgs(self, user_id = user_id, limit=limit)
 
-    return msgs(list): List of msgs
-    return sentiment(list of json): List of sentiment json
-    """
+        # Get the message body in a list
+        messages_data = raw_json['messages']
 
-    # Create lists to append the parsed out json too.
-    msgs = []
-    sentiment = []
+        # Iterate through all of the "body" and "entities" json and append to list
+        for message in messages_data:
+            msgs.append(message.get("body"))
+            sentiment.append(message.get("entities"))
 
-    twit = Streamer()
-    raw_json = twit.get_user_msgs(user_id = user_id, limit=limit)
+        return msgs, sentiment
 
-    # Get the message body in a list
-    messages_data = raw_json['messages']
+    # Ex: [{'sentiment': {'basic': 'Bullish'}}, {'sentiment': None}]
+    def extract_sentiment_statements_basic(list_of_sentiment_json):
 
-    # Iterate through all of the "body" and "entities" json and append to list
-    for message in messages_data:
-        msgs.append(message.get("body"))
-        sentiment.append(message.get("entities"))
+        """
+        extract_sentiment_statements_basic: Takes a list of json stocktwits sentiment and outputs a list of parsed sentiments. Only works with basic stocktwits avaliable twits
 
-    return msgs, sentiment
+        param list_of_sentiment_json(list of json): user_id id of the company in stocktwits.
 
-# Ex: [{'sentiment': {'basic': 'Bullish'}}, {'sentiment': None}]
-def extract_sentiment_statements_basic(list_of_sentiment_json):
+        return parsed_sentiment(list of strings): List of parsed sentiment strings
+        """
 
-    """
-    extract_sentiment_statements_basic: Takes a list of json stocktwits sentiment and outputs a list of parsed sentiments. Only works with basic stocktwits avaliable twits
+        # Check if the input is empty
+        if len(list_of_sentiment_json) is None:
+            raise Exception("The json list is empty")
 
-    param list_of_sentiment_json(list of json): user_id id of the company in stocktwits.
+        parsed_sentiments = []
 
-    return parsed_sentiment(list of strings): List of parsed sentiment strings
-    """
+        # Iterate through the list of json
+        for i in list_of_sentiment_json:
+            # If the sentiment is None append and don't error out
+            if i['sentiment'] is None:
+                parsed_sentiments.append(i['sentiment'])
+            # If the sentiment is not None then parse it out.
+            elif i is not None and i['sentiment'] is not None:
+                parsed_sentiments.append(i['sentiment']['basic'])
 
-    parsed_sentiments = []
+        return parsed_sentiments
 
-    # Iterate through the list of json
-    for i in list_of_sentiment_json:
-        # If the sentiment is None append and don't error out
-        if i['sentiment'] is None:
-            parsed_sentiments.append(i['sentiment'])
-        # If the sentiment is not None then parse it out.
-        elif i is not None and i['sentiment'] is not None:
-            parsed_sentiments.append(i['sentiment']['basic'])
+    # This needs to be cleaned up
+    def stocktwit_csv_create(csv_name, company_id, msg_range, time_delay, limit=30):
 
-    return parsed_sentiments
+        """
+        stocktwit_csv_create: Create a dataset based on the symbol id in the form of a csv
+
+        param csv_name(string): Has to end with .csv. Name of the CSV you want to create
+        param company_id(string): The Company Symbol. Ex: 'AAPL'
+        param msg_range(int): How many times you want this to execute
+        param time_delays(int): Delay before API Call
+        param limit(int): How many msgs to get when executing call
+        """
+
+        with open(csv_name, 'w') as f:
+    	    f.write("msgs, stock_sentiment \n") #, twitter_senitment \n")
+
+        # Instead of infinite loop, just set range
+        for i in range(0, msg_range):
+
+            # Set delay for calling again
+            time.sleep(time_delay)
+            list_of_msgs, list_of_sentiment_json = self.get_all_msgs_with_sentiment_by_symbol_id(symbol_id=company_id, limit=limit)
+            #list_of_twitter_sentiment = textblob_sentiment_list(list_of_msgs)
+            list_of_sentiment = self.extract_sentiment_statements(list_of_sentiment_json)
+
+            # After getting the list of sentiment, append to CSV
+            with open(csv_name, 'a', newline='') as f:
+                writer=csv.writer(f)
+
+                # Zip to append by list
+                data = list(zip(list_of_msgs, list_of_sentiment)) #, list_of_twitter_sentiment))
+                for row in data:
+                    row = list(row)
+                    writer.writerow(row)
 
 
-def textblob_sentiment_polarity(msg):
+def textblob_sentiment_polarity(self, msg):
 
     """
     textblob_sentiment_polarity: Take in a string and give you the sentiment polarity based on textblob
@@ -195,7 +223,7 @@ def textblob_sentiment_polarity(msg):
 
     return sentiment_polarity
 
-def textblob_sentiment_list(list_of_msgs):
+def textblob_sentiment_list(self, list_of_msgs):
 
     """
     textblob_sentiment_polarity_list: Take in a list to find all polarties
@@ -204,6 +232,9 @@ def textblob_sentiment_list(list_of_msgs):
 
     return sentiment_polarity_list(list of strings): sentiment polarity of the list
     """
+    # Check if the input is empty
+    if len(list_of_msgs) is None:
+        raise Exception("The json list is empty")
 
     sentiment_polarity_list = []
 
@@ -212,33 +243,19 @@ def textblob_sentiment_list(list_of_msgs):
 
     return sentiment_polarity_list
 
-# This needs to be cleaned up
-def stocktwit_csv_create(csv_name, company_id, msg_range, time_delays, limit=30):
+def return_json_file(self, raw_json, file_name):
 
     """
-    stocktwit_csv_create: Create a dataset based on the symbol id in the form of a csv
+    return_json_file is a function that takes in the raw_json and makes it into a nicely formatted json file which I used for debugging purposes like how the json is nested.
 
-    param csv_name(string): Has to end with .csv. Name of the CSV you want to create
-    param company_id(string): The Company Symbol. Ex: 'AAPL'
-    param msg_range(int): How many times you want this to execute
-    param time_delays(int): Delay before API Call
-    param limit(int): How many msgs to get when executing call
+    param raw_json(json object): Takes in a json object.
+    param file_name(string): file_name is the name of the file name you want to write too.
+
+    return True: Return True if the function executed properly.
     """
 
-    csv_name = str(csv_name)
-    company_id = str(company_id)
-    with open(csv_name, 'w') as f:
-	    f.write("msgs, stock_sentiment, twitter_senitment \n")
+    # Open file with the ability to write to the file
+    with open(file_name, "w") as data_file:
+        json.dump(raw_json, data_file, indent=4, sort_keys=True)
 
-    for i in range(0, msg_range):
-        time.sleep(time_delay)
-        list_of_msgs, list_of_sentiment_json = get_all_msgs_with_sentiment_by_symbol_id(symbol_id=company_id, limit=limit)
-        list_of_twitter_sentiment = textblob_sentiment_list(list_of_msgs)
-        list_of_sentiment = extract_sentiment_statements(list_of_sentiment_json)
-        with open(csv_name, 'a', newline='') as f:
-            writer=csv.writer(f)
-            data = list(zip(list_of_msgs, list_of_sentiment, list_of_twitter_sentiment))
-            for row in data:
-                row = list(row)
-                print(row)
-                writer.writerow(row)
+    return True

@@ -1,5 +1,5 @@
-
-from pystocktwits_data_utils import *
+from pystocktwits import Streamer
+from pystocktwits_data_utils import PyStockTwitData, textblob_sentiment_polarity, textblob_sentiment_list
 
 import unittest
 
@@ -7,35 +7,49 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_most_recent_msg_by_user(self):
 
-        recent_msg = get_most_recent_msg_by_user('170')
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+
+        recent_msg = data.get_most_recent_msg_by_user('170')
 
         # Since the recent msg always changes, just testing if a string is returned
         self.assertEqual(type('test'), type(recent_msg))
 
     def test_get_most_recent_msg_by_symbol_id(self):
 
-        recent_msg = get_most_recent_msg_by_symbol_id('AAPL')
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+
+        recent_msg = data.get_most_recent_msg_by_symbol_id('AAPL')
 
         # Since the recent msg always changes, just testing if a string is returned
         self.assertEqual(type('test'), type(recent_msg))
 
     def test_get_most_recent_sentiment_by_user(self):
 
-        recent_sentiment = get_most_recent_sentiment_by_user('170')
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+        recent_sentiment = data.get_most_recent_sentiment_by_user('170')
 
         # Since the recent msg always changes, just testing if a dict is returned
         self.assertEqual(type({}), type(recent_sentiment))
 
     def test_get_most_recent_sentiment_by_symbol(self):
 
-        recent_sentiment = get_most_recent_sentiment_by_symbol_id('AAPL')
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+
+        recent_sentiment = data.get_most_recent_sentiment_by_symbol_id('AAPL')
 
         # Since the recent msg always changes, just testing if a dict is returned
         self.assertEqual(type({}), type(recent_sentiment))
 
     def test_get_all_msgs_with_sentiment_by_user_id(self):
 
-        msgs, sentiment = get_all_msgs_with_sentiment_by_user_id('170', limit=3)
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+
+        msgs, sentiment = data.get_all_msgs_with_sentiment_by_user_id('170', limit=3)
 
         # Check if the length equals the limit
         self.assertEqual(3, len(msgs))
@@ -43,7 +57,10 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_all_msgs_with_sentiment_by_symbol_id(self):
 
-        msgs, sentiment = get_all_msgs_with_sentiment_by_symbol_id('AAPL', limit=3)
+        twit = Streamer()
+        data = PyStockTwitData(twit)
+
+        msgs, sentiment = data.get_all_msgs_with_sentiment_by_symbol_id('AAPL', limit=3)
 
         # Check if the length equals the limit
         self.assertEqual(3, len(msgs))
@@ -65,7 +82,6 @@ class TestDataUtilsMethods(unittest.TestCase):
         sentiment_polarity = textblob_sentiment_polarity(example)
 
         self.assertEqual(type(3.0), type(sentiment_polarity))
-
 
 if __name__ == '__main__':
     unittest.main()
