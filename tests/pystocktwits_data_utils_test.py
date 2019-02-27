@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from pystocktwits import Streamer
-from pystocktwits_data_utils import PyStockTwitData, textblob_sentiment_polarity, textblob_sentiment_list
+from pystocktwits_data_utils import PyStockTwitData,
+from pystocktwits_data_utils.utils import textblob_sentiment_polarity, textblob_sentiment_list
 
 import unittest
 
@@ -7,8 +11,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_most_recent_msg_by_user(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
 
         recent_msg = data.get_most_recent_msg_by_user('170')
 
@@ -17,8 +20,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_most_recent_msg_by_symbol_id(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
 
         recent_msg = data.get_most_recent_msg_by_symbol_id('AAPL')
 
@@ -27,8 +29,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_most_recent_sentiment_by_user(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
         recent_sentiment = data.get_most_recent_sentiment_by_user('170')
 
         # Since the recent msg always changes, just testing if a dict is returned
@@ -36,8 +37,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_most_recent_sentiment_by_symbol(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
 
         recent_sentiment = data.get_most_recent_sentiment_by_symbol_id('AAPL')
 
@@ -46,8 +46,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_all_msgs_with_sentiment_by_user_id(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
 
         msgs, sentiment = data.get_all_msgs_with_sentiment_by_user_id('170', limit=3)
 
@@ -57,8 +56,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_get_all_msgs_with_sentiment_by_symbol_id(self):
 
-        twit = Streamer()
-        data = PyStockTwitData(twit)
+        data = PyStockTwitData()
 
         msgs, sentiment = data.get_all_msgs_with_sentiment_by_symbol_id('AAPL', limit=3)
 
