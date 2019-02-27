@@ -10,6 +10,7 @@ python:
 
 install:
   - git pull --recurse-submodules
+  - python pystocktwits/setup.py install
   - python setup.py install
 
 script:
