@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pystocktwits import Streamer
-from pystocktwits_data_utils import PyStockTwitData,
+from pystocktwits_data_utils import PyStockTwitData
 from pystocktwits_data_utils.utils import textblob_sentiment_polarity, textblob_sentiment_list
 
 import unittest

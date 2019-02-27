@@ -13,4 +13,4 @@ install:
   - python setup.py install
 
 script:
-  - python tests/pystocktwits_data_utils_test.py
+  - python tests/pystocktwits_data_utils_tests.py
