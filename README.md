@@ -33,7 +33,7 @@ data = PyStockTwitData()
 list_of_msgs, list_of_sentiment_json = data.get_all_msgs_with_sentiment_by_symbol_id("AAPL")
 
 # Parse out the Bullish, Bearish, or None Sentiment
-list_of_sentiment = extract_sentiment_statements(list_of_sentiment_json)
+list_of_sentiment = data.extract_sentiment_statements(list_of_sentiment_json)
 
 # Create a Dataframe
 dataframe = pd.DataFrame(
@@ -61,7 +61,7 @@ data = PyStockTwitData()
 # Get the recent 30 messages
 # Wait 600 seconds before checking again
 # Set limit messages to 30
-stocktwit_csv_create("VEEV.csv", "VEEV", 30, 600, limit=30):
+data.stocktwit_csv_create("VEEV.csv", "VEEV", 30, 600, limit=30):
 ```
 
 Example Result
