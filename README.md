@@ -11,6 +11,8 @@ $ git clone https://github.com/khmurakami/pystocktwits_data_utils.git
 $ git pull --recurse-submodules
 $ cd pystocktwits_data_utils
 $ python3 setup.py install
+$ cd pystocktwtis
+$ python setup.py install
 ```
 
 ## Update Submodule
@@ -69,6 +71,7 @@ Example Result
 | $VEEV that was the 110 bounce I called for but it happened very fast             | Bullish   |
 | #Update(17),$VEEV Feb-15 105 Calls Up +206%.,since alerted on: Jan 23. Peak 262% | Bullish   |
 
+##
 
 # TODO
 - Add more to README.md

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pystocktwits import Streamer
 from pystocktwits_data_utils import PyStockTwitData
 from pystocktwits_data_utils.utils import textblob_sentiment_polarity, textblob_sentiment_list
 
@@ -66,9 +65,11 @@ class TestDataUtilsMethods(unittest.TestCase):
 
     def test_extract_sentiment_statements_basic(self):
 
+        data = PyStockTwitData()
+
         # Use an example json that this statement parses
         example = [{'sentiment': {'basic': 'Bullish'}}, {'sentiment': None}]
-        parsed_sentiment = extract_sentiment_statements_basic(example)
+        parsed_sentiment = data.extract_sentiment_statements_basic(example)
 
         # Check if the parser gets Bullish and None
         self.assertEqual('Bullish', parsed_sentiment[0])

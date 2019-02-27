@@ -5,7 +5,7 @@ from textblob import TextBlob
 
 import json
 
-def textblob_sentiment_polarity(self, msg):
+def textblob_sentiment_polarity(msg):
 
     """
     textblob_sentiment_polarity: Take in a string and give you the sentiment polarity based on textblob
@@ -21,7 +21,7 @@ def textblob_sentiment_polarity(self, msg):
 
     return sentiment_polarity
 
-def textblob_sentiment_list(self, list_of_msgs):
+def textblob_sentiment_list(list_of_msgs):
 
     """
     textblob_sentiment_polarity_list: Take in a list to find all polarties
@@ -41,7 +41,7 @@ def textblob_sentiment_list(self, list_of_msgs):
 
     return sentiment_polarity_list
 
-def return_json_file(self, raw_json, file_name):
+def return_json_file(raw_json, file_name):
 
     """
     return_json_file is a function that takes in the raw_json and makes it into a nicely formatted json file which I used for debugging purposes like how the json is nested.

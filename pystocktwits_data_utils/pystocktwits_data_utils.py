@@ -78,7 +78,7 @@ class PyStockTwitData():
         """
 
         twit = self.streamer
-        raw_json = twit.get_symbol_msgs(self, symbol_id)
+        raw_json = twit.get_symbol_msgs(symbol_id)
 
         # Parse out the raw json by the json format
         recent_sentiment =  raw_json['messages'][0]['entities']
@@ -102,7 +102,7 @@ class PyStockTwitData():
         sentiment = []
 
         twit = self.streamer
-        raw_json = twit.get_symbol_msgs(self, symbol_id = symbol_id, limit=limit)
+        raw_json = twit.get_symbol_msgs(symbol_id = symbol_id, limit=limit)
 
         # Get the message body in a list
         messages_data = raw_json['messages']
@@ -131,7 +131,7 @@ class PyStockTwitData():
         sentiment = []
 
         twit = self.streamer
-        raw_json = twit.get_user_msgs(self, user_id = user_id, limit=limit)
+        raw_json = twit.get_user_msgs(user_id = user_id, limit=limit)
 
         # Get the message body in a list
         messages_data = raw_json['messages']
@@ -144,7 +144,7 @@ class PyStockTwitData():
         return msgs, sentiment
 
     # Ex: [{'sentiment': {'basic': 'Bullish'}}, {'sentiment': None}]
-    def extract_sentiment_statements_basic(list_of_sentiment_json):
+    def extract_sentiment_statements_basic(self, list_of_sentiment_json):
 
         """
         extract_sentiment_statements_basic: Takes a list of json stocktwits sentiment and outputs a list of parsed sentiments. Only works with basic stocktwits avaliable twits
@@ -183,6 +183,8 @@ class PyStockTwitData():
         param time_delays(int): Delay before API Call
         param limit(int): How many msgs to get when executing call
         """
+
+        twit = self.streamer
 
         with open(csv_name, 'w') as f:
     	    f.write("msgs, stock_sentiment \n") #, twitter_senitment \n")
