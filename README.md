@@ -6,19 +6,37 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/khmurakami/pystocktwits_data_utils/total.svg)
 [![HitCount](http://hits.dwyl.com/khmurakami/pystocktwits_data_utils.svg)](http://hits.dwyl.com/khmurakami/pystocktwits_data_utils)
 
-
-
 Data Tools for the JSON outputs from the pystocktwits wrapper to create datasets. This was made separate from the main repo because only includes wrappers for the web calls to stocktwits and it can be expanded on for the oauth tools.
 
 Link to main repo: https://github.com/khmurakami/pystocktwits
 
-# Install
+## Requirements
+
+Also listed in requirements.txt:
+
+-   requests
+
+## Install
+
+#### Install Locally
+
+This has been tested with Python 2.7, 3.3, 3.4, 3.5, 3.6 and 3.6-dev
+
+```shell
+$ git clone https://github.com/khmurakami/pystocktwits_data_utils
+$ cd pystocktwits_data_utils
+$ python setup.py install
+$ cd pystocktwits
+$ python setup.py install
+```
+
+#### Install inside a Virtualenv
 
 ```shell
 $ git clone https://github.com/khmurakami/pystocktwits_data_utils.git
 $ git pull --recurse-submodules
 $ cd pystocktwits_data_utils
-$ python3 setup.py install
+$ python setup.py install
 $ cd pystocktwtis
 $ python setup.py install
 ```
@@ -80,6 +98,19 @@ Example Result
 | $VEEV that was the 110 bounce I called for but it happened very fast             | Bullish   |
 | #Update(17),$VEEV Feb-15 105 Calls Up +206%.,since alerted on: Jan 23. Peak 262% | Bullish   |
 
+## Samples
+
+Code samples can be found in example_code/python_scripts
+JSON sample outputs can be found in example_code/sample_json_output
+
+## Testing using Unit Tests
+
+Run test script to test if it works properly
+
+```shell
+$ python tests/pystocktwits_data_utils_tests.py
+```
+
 ## TODO
 - Make better README.md
 - Add timestamp to csv generator
@@ -87,5 +118,9 @@ Example Result
 
 ## Links/Credits
 
+- Link to main repo: https://github.com/khmurakami/pystocktwits
 - IcyFlames CSV Duplicates Removal with no new libraries: https://stackoverflow.com/questions/15741564/removing-duplicate-rows-from-a-csv-file-using-a-python-script
 - Git ignore was used from this repo: https://github.com/github/gitignore/blob/master/Python.gitignore
+- Stocktwits Official Site: https://stocktwits.com/
+- Stocktwits Developer Sign Up: https://api.stocktwits.com/developers/contact
+- Stocktwits Official APU Documentation: https://api.stocktwits.com/developers/docs
