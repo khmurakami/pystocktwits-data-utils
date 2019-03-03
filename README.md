@@ -62,6 +62,7 @@ data = PyStockTwitData()
 # Wait 600 seconds before checking again
 # Set limit messages to 30
 data.stocktwit_csv_create("VEEV.csv", "VEEV", 30, 600, limit=30):
+
 ```
 
 Example Result
@@ -81,6 +82,7 @@ Example Result
 - Add timestamp to csv generator
 - Fix naming of functions
 
-## References
+## Links/Credits
 
-Git ignore was used from this repo: https://github.com/github/gitignore/blob/master/Python.gitignore
+- IcyFlames CSV Duplicates Removal with no new libraries: https://stackoverflow.com/questions/15741564/removing-duplicate-rows-from-a-csv-file-using-a-python-script
+- Git ignore was used from this repo: https://github.com/github/gitignore/blob/master/Python.gitignore
