@@ -12,6 +12,7 @@ install:
   - git submodule update --remote --merge
   - cd pystocktwits && python setup.py install
   - cd ../ && python setup.py install
+  - pip install textblob
 
 script:
   - python tests/pystocktwits_data_utils_tests.py

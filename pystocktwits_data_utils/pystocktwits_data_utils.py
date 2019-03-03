@@ -236,7 +236,7 @@ class PyStockTwitData():
                     writer.writerow(row)
                     print("Wrote Row")
 
-    def stock_csv_list_create(self, csv_name, company_list,
+    def stocktwit_csv_list_create(self, csv_name, company_list,
                               loop_limit, time_delay, limit=30):
 
         """Create a dataset based on the symbol id in the form of a csv
