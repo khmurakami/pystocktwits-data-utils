@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from pystocktwits_data_utils import PyStockTwitData
-from pystocktwits_data_utils.utils import return_json_file
 
 data = PyStockTwitData()
 

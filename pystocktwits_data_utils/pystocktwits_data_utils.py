@@ -222,7 +222,7 @@ class PyStockTwitData():
                 self.get_all_msgs_with_sentiment_by_symbol_id(
                     symbol_id=company_id, limit=limit))
 
-            list_of_sentiment = self.extract_sentiment_statements(
+            list_of_sentiment = self.extract_sentiment_statements_basic(
                                 list_of_sentiment_json)
 
             # After getting the list of sentiment, append to CSV
@@ -269,7 +269,7 @@ class PyStockTwitData():
                     self.get_all_msgs_with_sentiment_by_symbol_id(
                         symbol_id=company, limit=limit))
 
-                list_of_sentiment = self.extract_sentiment_statements(
+                list_of_sentiment = self.extract_sentiment_statements_basic(
                                     list_of_sentiment_json)
 
                 # After getting the list of sentiment, append to CSV
@@ -320,7 +320,7 @@ class PyStockTwitData():
                 list_of_twitter_sentiment = textblob_sentiment_list(
                                             list_of_msgs)
 
-                list_of_sentiment = self.extract_sentiment_statements(
+                list_of_sentiment = self.extract_sentiment_statements_basic(
                                     list_of_sentiment_json)
 
                 # After getting the list of sentiment, append to CSV
