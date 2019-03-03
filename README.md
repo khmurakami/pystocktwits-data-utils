@@ -1,5 +1,13 @@
 # pystocktwits_data_utils
 
+[![Build Status](https://travis-ci.com/khmurakami/pystocktwits_data_utils.svg?branch=master)](https://travis-ci.com/khmurakami/pystocktwits_data_utils)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CodeFactor](https://www.codefactor.io/repository/github/khmurakami/pystocktwits_data_utils/badge)](https://www.codefactor.io/repository/github/khmurakami/pystocktwits_data_utils)
+![GitHub All Releases](https://img.shields.io/github/downloads/khmurakami/pystocktwits_data_utils/total.svg)
+[![HitCount](http://hits.dwyl.com/khmurakami/pystocktwits_data_utils.svg)](http://hits.dwyl.com/khmurakami/pystocktwits_data_utils)
+
+
+
 Data Tools for the JSON outputs from the pystocktwits wrapper to create datasets. This was made separate from the main repo because only includes wrappers for the web calls to stocktwits and it can be expanded on for the oauth tools.
 
 Link to main repo: https://github.com/khmurakami/pystocktwits
@@ -72,15 +80,10 @@ Example Result
 | $VEEV that was the 110 bounce I called for but it happened very fast             | Bullish   |
 | #Update(17),$VEEV Feb-15 105 Calls Up +206%.,since alerted on: Jan 23. Peak 262% | Bullish   |
 
-##
-
-# TODO
-- Add more to README.md
-- Clean automatic csv generator
-- Make more examples
+## TODO
 - Make better README.md
 - Add timestamp to csv generator
-- Fix naming of functions
+- Add Company ID to csv generator
 
 ## Links/Credits
 
