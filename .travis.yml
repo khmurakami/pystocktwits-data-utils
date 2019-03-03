@@ -10,7 +10,7 @@ python:
 
 install:
   - git submodule update --remote --merge
-  - python pystocktwits/setup.py install
+  - cd pystocktwits && python setup.py install
   - python setup.py install
 
 script:

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from pystocktwits_data_utils import PyStockTwitData
 from pystocktwits_data_utils.utils import textblob_sentiment_polarity
 
@@ -41,7 +42,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
         self.assertEqual(type({}), type(recent_sentiment))
 
-    def test_get_most_recent_sentiment_by_symbol(self):
+    def test_get_most_recent_sentiment_by_symbol_id(self):
 
         data = PyStockTwitData()
 
@@ -83,7 +84,7 @@ class TestDataUtilsMethods(unittest.TestCase):
 
         # Check if the parser gets Bullish and None
         self.assertEqual('Bullish', parsed_sentiment[0])
-        self.assertEqual(None, parsed_sentiment[1])
+        self.assertEqual("None", parsed_sentiment[1])
 
     def test_textblob_sentiment_polarity(self):
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from pystocktwits import Streamer
 from .utils import textblob_sentiment_list
 
@@ -183,7 +184,7 @@ class PyStockTwitData():
 
             # If the sentiment is None append and don't error out
             if sentiment['sentiment'] is None:
-                parsed_sentiments.append(sentiment['None'])
+                parsed_sentiments.append("None")
 
             # If the sentiment is not None then parse it out.
             elif sentiment is not None and sentiment['sentiment'] is not None:
