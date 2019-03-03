@@ -9,7 +9,7 @@ python:
   - "3.6-dev"
 
 install:
-  - git pull --recurse-submodules
+  - git submodule update --remote --merge
   - python pystocktwits/setup.py install
   - python setup.py install
 
