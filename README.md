@@ -14,7 +14,9 @@ Link to main repo: https://github.com/khmurakami/pystocktwits
 
 Also listed in requirements.txt:
 
--   requests
+- requests
+- texblob
+- wordcloud
 
 ## Install
 
