@@ -1,4 +1,4 @@
-# pystocktwits_data_utils
+# pystocktwits-data-utils
 
 [![Build Status](https://travis-ci.com/khmurakami/pystocktwits_data_utils.svg?branch=master)](https://travis-ci.com/khmurakami/pystocktwits_data_utils)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
