@@ -211,7 +211,7 @@ class PyStockTwitData():
 
         # Create a CSV
         with open(csv_name, 'w') as f:
-            f.write("msgs, stock_sentiment \n")
+            f.write("msgs,stock_sentiment\n")
 
         # Instead of infinite loop, just set range
         for i in range(0, loop_limit):
@@ -255,7 +255,7 @@ class PyStockTwitData():
 
         # Create a CSV
         with open(csv_name, 'w') as f:
-            f.write("msgs, stock_sentiment \n")
+            f.write("msgs,stock_sentiment\n")
 
         # Instead of infinite loop, just set range
         for i in range(0, loop_limit):
@@ -303,7 +303,7 @@ class PyStockTwitData():
 
         # Create a CSV
         with open(csv_name, 'w') as f:
-            f.write("msgs, stock_sentiment, twitter_sentiment \n")
+            f.write("msgs,stock_sentiment,twitter_sentiment\n")
 
         # Instead of infinite loop, just set range
         for i in range(0, loop_limit):

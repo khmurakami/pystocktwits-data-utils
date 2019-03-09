@@ -7,6 +7,7 @@ from textblob import TextBlob
 
 import json
 import pandas as pd
+import re
 
 
 def textblob_sentiment_polarity(msg):
@@ -75,8 +76,7 @@ def return_json_file(raw_json, file_name):
     return True
 
 
-def extract_bullish_from_csv(input_csv, rows=100,
-                             download=False, file_path=None):
+def extract_bullish_msgs_from_csv(input_csv, file_name):
 
     """Get all the bullish statements from the input CSV
 
@@ -87,18 +87,30 @@ def extract_bullish_from_csv(input_csv, rows=100,
         file_path (string)(optional): If download is true
 
     Return:
-        bull_list (list): list of all bullish statements
+        True
 
     """
 
-    df = pd.read_table(input_csv, sep=" ")
-    stock_sentiment = df['stock_sentiment']
+    input_pd = pd.read_table(input_csv, sep=",")
 
-    return stock_sentiment
+    query_result = input_pd.query('stock_sentiment=="Bullish"')['msgs']
+    bullish_csv = pd.DataFrame(query_result.values, columns=["msgs"])
+    bullish_csv.to_csv(file_name)
 
 
-def extract_bearish_from_csv(input_csv, rows=100,
-                             download=False, file_path=None):
+def extract_bullish_msgs_from_pd(input_pd):
+
+    """Get all the bullish statements from the input Pandas Dataframe
+
+    """
+
+    query_result = input_pd.query('stock_sentiment=="Bullish"')['msgs']
+    bullish_pd = pd.DataFrame(query_result.values, columns=["msgs"])
+
+    return bullish_pd
+
+
+def extract_bearish_msgs_from_csv(input_csv, file_name):
 
     """Get all the bearish statements from the input CSV
 
@@ -113,13 +125,26 @@ def extract_bearish_from_csv(input_csv, rows=100,
 
     """
 
-    df = pd.read_table(input_csv, sep=" ")
-    stock_sentiment = df['stock_sentiment']
+    input_pd = pd.read_table(input_csv, sep=",")
 
-    return stock_sentiment
+    query_result = input_pd.query('stock_sentiment=="Bearish"')['msgs']
+    bearish_csv = pd.DataFrame(query_result.values, columns=["msgs"])
+    bearish_csv.to_csv(file_name)
 
 
-def clean_stopwords(twit, stopwords):
+def extract_bearish_msgs_from_pd(input_pd):
+
+    """Get all the bullish statements from the input Pandas Dataframe
+
+    """
+
+    query_result = input_pd.query('stock_sentiment=="Bearish"')['msgs']
+    bearish_pd = pd.DataFrame(query_result.values, columns=["msgs"])
+
+    return bearish_pd
+
+
+def preprocess_stopwords(twit, stopwords):
 
     """Clean twit
 
@@ -145,7 +170,7 @@ def clean_stopwords(twit, stopwords):
     return preprocess_twit
 
 
-def clean_punctuation(twit, punc_list):
+def preprocess_punc(twit):
 
     """Clean Punctuation
 
@@ -158,26 +183,21 @@ def clean_punctuation(twit, punc_list):
 
     """
 
+    if type(twit) is not str:
+        raise Exception("This is not a string")
 
-def clean_company_symbols(twit):
+    url_free = re.sub(r'http\S+', '', twit)
+    punc_free_twit = re.sub(r'[^\w\s_]+', '', url_free).strip()
+
+    return punc_free_twit
+
+
+def preprocess_company_symbols(twit):
 
     """Clean the company symbols
 
     """
-
-
-def create_wordcloud(string_list, filepath):
-
-    """Create a word cloud from a list of strings
-
-    Args:
-        string_list (list): list of strings
-        filepath (string): String of path to save file
-
-    Return:
-        True if it worked
-
-    """
+    pass
 
 
 def delete_duplicates_in_csv(input_csv_file, output_csv_file):
