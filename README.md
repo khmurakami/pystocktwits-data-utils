@@ -117,6 +117,7 @@ $ python tests/pystocktwits_data_utils_tests.py
 - Make better README.md
 - Add timestamp to csv generator
 - Add Company ID to csv generator
+- Create a realtime stream of data flows
 
 ## Links/Credits
 
